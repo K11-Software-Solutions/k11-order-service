@@ -17,6 +17,12 @@ paths:
       responses:
         '200':
           description: List of orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
     post:
       summary: Create a new order
       operationId: create_order
@@ -29,6 +35,10 @@ paths:
       responses:
         '201':
           description: Order created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
         '422':
           description: User not found
   /api/v1/orders/{id}:
@@ -69,6 +79,10 @@ paths:
       responses:
         '200':
           description: Order updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
         '404':
           description: Order not found
 components:
