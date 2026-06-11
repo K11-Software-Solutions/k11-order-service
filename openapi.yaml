@@ -17,6 +17,12 @@ paths:
       responses:
         '200':
           description: List of orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
   /api/v1/orders/{id}:
     get:
       summary: Get an order by ID
@@ -30,6 +36,10 @@ paths:
       responses:
         '200':
           description: Order found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
         '404':
           description: Order not found
     patch:
@@ -55,6 +65,10 @@ paths:
       responses:
         '200':
           description: Order updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
         '404':
           description: Order not found
 components:
