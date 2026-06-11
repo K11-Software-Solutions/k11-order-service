@@ -1,21 +1,19 @@
 openapi: 3.0.0
 info:
   title: Order Service
-  description: Manages orders for the K11 platform. Consumes user-service to attach user profiles.
-  version: 1.0.0
+  version: 1.1.0
 paths:
   /api/v1/orders:
     get:
       summary: List all orders
       operationId: list_orders
-      tags: [orders]
       parameters:
-        - name: page
-          in: query
-          required: false
-          schema:
-            type: integer
-            default: 1
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
       responses:
         '200':
           description: List of orders
@@ -28,7 +26,6 @@ paths:
     post:
       summary: Create a new order
       operationId: create_order
-      tags: [orders]
       requestBody:
         required: true
         content:
@@ -48,13 +45,12 @@ paths:
     get:
       summary: Get an order by ID
       operationId: get_order
-      tags: [orders]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Order found
@@ -67,19 +63,23 @@ paths:
     patch:
       summary: Update order status
       operationId: update_order_status
-      tags: [orders]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: status
-          in: query
-          required: true
-          schema:
-            type: string
-            enum: [pending, confirmed, shipped, delivered, cancelled]
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: status
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - pending
+          - confirmed
+          - shipped
+          - delivered
+          - cancelled
       responses:
         '200':
           description: Order updated
@@ -93,13 +93,17 @@ components:
   schemas:
     Order:
       type: object
-      required: [id, user_id, items, total, status]
+      required:
+      - id
+      - user_id
+      - items
+      - total
+      - status
       properties:
         id:
           type: string
         user_id:
           type: string
-          description: ID from user-service GET /api/v2/users/{id}
         items:
           type: array
           items:
@@ -109,10 +113,18 @@ components:
           format: float
         status:
           type: string
-          enum: [pending, confirmed, shipped, delivered, cancelled]
+          enum:
+          - pending
+          - confirmed
+          - shipped
+          - delivered
+          - cancelled
     CreateOrder:
       type: object
-      required: [user_id, items, total]
+      required:
+      - user_id
+      - items
+      - total
       properties:
         user_id:
           type: string
@@ -123,3 +135,7 @@ components:
         total:
           type: number
           format: float
+        discount_code:
+          type: string
+          nullable: true
+          description: Optional discount code
